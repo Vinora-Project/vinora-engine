@@ -1,0 +1,61 @@
+# Raylib C Coding Style Configuration
+
+BasedOnStyle: LLVM
+Language: Cpp
+
+# Indentation and spacing
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+IndentCaseLabels: false
+
+# Brace style - Allman style
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  BeforeCatch: true
+  BeforeElse: true
+  IndentBraces: false
+
+# Line breaking and formatting
+ColumnLimit: 0
+MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: false
+ReflowComments: false
+
+# Control statements
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Custom
+
+# Include sorting
+IncludeCategories:
+  - Regex: '^"raylib.h"'
+    Priority: 1
+  - Regex: '^"raymath.h"'
+    Priority: 2
+  - Regex: '^"rlgl.h"'
+    Priority: 3
+  - Regex: '^<.*'
+    Priority: 4
+  - Regex: '.*'
+    Priority: 5
+
+SortIncludes: CaseSensitive
+
+# Other settings
+NamespaceIndentation: None
+AccessModifierOffset: -4
+IndentAccessModifiers: false
+AlignAfterOpenBracket: Align
+AlignOperands: Align
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpaceInEmptyParentheses: false
