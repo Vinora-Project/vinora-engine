@@ -16,7 +16,7 @@ all: raylib $(TARGET)
 raylib:
 	@$(MAKE) -C $(RAYLIB_DIR) PLATFORM=PLATFORM_DESKTOP -j2
 
-$(TARGET): raylib $(OBJECTS)
+$(TARGET): $(OBJECTS) | raylib
 	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
 
 %.o: %.c
