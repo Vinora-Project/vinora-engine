@@ -19,24 +19,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "raylib.h"
+#include "ui/text_box.h"
 
 int main(void)
 {
-    const int screenWidth = 800;
-    const int screenHeight = 600;
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
 
     InitWindow(screenWidth, screenHeight, "Vinora Engine");
-
     SetTargetFPS(60);
+
+    TextBox dialogueBox;
+    TextBoxInit(&dialogueBox, screenWidth, screenHeight);
+
+    TextBoxSetText(&dialogueBox, "Alice",
+                   "Hello from Vinora Engine textbox!\n\n"
+                   "D-d-do you like it or something? :3");
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Vinora Engine", 250, 280, 40, DARKGRAY);
+            ClearBackground((Color){20, 25, 40, 255});
+            TextBoxDraw(&dialogueBox);
         EndDrawing();
     }
 
+    TextBoxCleanup(&dialogueBox);
     CloseWindow();
     return 0;
 }
