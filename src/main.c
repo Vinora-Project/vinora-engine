@@ -33,7 +33,7 @@ int main(void)
     TextBox dialogueBox;
     TextBoxInit(&dialogueBox, screenWidth, screenHeight);
 
-    TextBoxSetText(&dialogueBox, "\xD0\x90\xD0\xBB\xD0\xB8\xD1\x81\xD0\xB0",
+    TextBoxSetText(&dialogueBox, "",
                    "Hello from Vinora Engine textbox!\n\n"
                    "D-d-do you like it or something? :3");
 
@@ -41,7 +41,7 @@ int main(void)
     {
         dialogueBox.timer += GetFrameTime();
         BeginDrawing();
-            ClearBackground((Color){20, 25, 40, 255});
+            ClearBackground(BLACK);
             TextBoxDraw(&dialogueBox);
         EndDrawing();
     }

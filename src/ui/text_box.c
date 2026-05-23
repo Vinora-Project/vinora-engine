@@ -22,8 +22,8 @@ void TextBoxInit(TextBox *tb, int screenWidth, int screenHeight)
         .width = screenWidth - 80,
         .height = 160};
 
-    tb->bg_color = (Color){0, 0, 0, 220};
-    tb->border_color = (Color){255, 255, 255, 180};
+    tb->bg_color = (Color){23, 28, 37, 220};
+    tb->border_color = (Color){25, 31, 40, 180};
     tb->border_thickness = 3;
     // TODO: remake to use charset instead of 0-2048 range
     tb->font = LoadFontEx("assets/fonts/NotoSans-Regular.ttf", 32, NULL, 2048);
