@@ -6,7 +6,7 @@ LIBS     := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 TARGET   := vinora
 SRC_DIR  := src
-SOURCES  := $(wildcard $(SRC_DIR)/*.c)
+SOURCES := $(shell find $(SRC_DIR) -type f -name "*.c")
 OBJECTS  := $(SOURCES:.c=.o)
 
 RAYLIB_DIR := ext/raylib/src
