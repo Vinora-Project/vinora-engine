@@ -32,7 +32,7 @@ int main(void)
     TextBox dialogueBox;
     TextBoxInit(&dialogueBox, screenWidth, screenHeight);
 
-    TextBoxSetText(&dialogueBox, "Alice",
+    TextBoxSetText(&dialogueBox, "\xD0\x90\xD0\xBB\xD0\xB8\xD1\x81\xD0\xB0",
                    "Hello from Vinora Engine textbox!\n\n"
                    "D-d-do you like it or something? :3");
 

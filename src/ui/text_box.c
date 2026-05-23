@@ -25,11 +25,12 @@ void TextBoxInit(TextBox *tb, int screenWidth, int screenHeight)
     tb->bg_color = (Color){0, 0, 0, 220};
     tb->border_color = (Color){255, 255, 255, 180};
     tb->border_thickness = 3;
-
-    tb->font = GetFontDefault();
+    // TODO: remake to use charset instead of 0-2048 range
+    tb->font = LoadFontEx("assets/fonts/NotoSans-Regular.ttf", 32, NULL, 2048);
+    SetTextureFilter(tb->font.texture, TEXTURE_FILTER_BILINEAR);
     tb->font_size = 24;
     tb->text_color = WHITE;
-    tb->name_color = YELLOW;
+    tb->name_color = RED;
 
     memset(tb->name, 0, sizeof(tb->name));
     tb->text = NULL;
@@ -67,7 +68,7 @@ void TextBoxDraw(TextBox *tb)
         DrawRectangleLinesEx(nameRect, 3, tb->border_color);
 
         DrawTextEx(tb->font, tb->name,
-                   (Vector2){nameRect.x + 12, nameRect.y + 6},
+                   (Vector2){nameRect.x + 12, nameRect.y + 3},
                    tb->font_size + 2, 1, tb->name_color);
     }
 
@@ -81,6 +82,7 @@ void TextBoxDraw(TextBox *tb)
 
 void TextBoxCleanup(TextBox *tb)
 {
+    UnloadFont(tb->font);
     if (tb->text)
     {
         free(tb->text);
