@@ -32,6 +32,9 @@ void TextBoxInit(TextBox *tb, int screenWidth, int screenHeight)
     tb->text_color = WHITE;
     tb->name_color = RED;
 
+    tb->typing_speed = 25.0f;
+    tb->timer = 0.0f;
+
     memset(tb->name, 0, sizeof(tb->name));
     tb->text = NULL;
     tb->max_text_length = 1024;
@@ -74,7 +77,7 @@ void TextBoxDraw(TextBox *tb)
 
     if (tb->text)
     {
-        DrawTextEx(tb->font, tb->text,
+        DrawTextEx(tb->font, TextSubtext(tb->text, 0, tb->timer * tb->typing_speed),
                    (Vector2){tb->rect.x + 25, tb->rect.y + 25},
                    tb->font_size, 1.2f, tb->text_color);
     }

@@ -19,6 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "raylib.h"
+#include <stdio.h>
 #include "ui/text_box.h"
 
 int main(void)
@@ -38,6 +39,7 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        dialogueBox.timer += GetFrameTime();
         BeginDrawing();
             ClearBackground((Color){20, 25, 40, 255});
             TextBoxDraw(&dialogueBox);

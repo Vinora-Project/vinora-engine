@@ -18,6 +18,8 @@ typedef struct
     Color name_color;
 
     char *text;
+    float typing_speed; // Characters per second
+    float timer;        // How much seconds passed
     int max_text_length;
 } TextBox;
 
