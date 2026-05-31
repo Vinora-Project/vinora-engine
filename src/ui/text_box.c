@@ -1,18 +1,7 @@
 #include "text_box.h"
+#include "text_utils.h"
 #include <stdlib.h>
 #include <string.h>
-
-static char *strdup(const char *s)
-{
-    if (!s)
-        return NULL;
-    size_t n = strlen(s) + 1;
-    char *p = malloc(n);
-    if (!p)
-        return NULL;
-    memcpy(p, s, n);
-    return p;
-}
 
 void TextBoxInit(TextBox *tb, int screenWidth, int screenHeight)
 {
@@ -49,7 +38,7 @@ void TextBoxSetText(TextBox *tb, const char *name, const char *text)
 
     if (tb->text)
         free(tb->text);
-    tb->text = strdup(text ? text : "");
+    tb->text = my_strdup(text ? text : "");
 }
 
 void TextBoxDraw(TextBox *tb)
