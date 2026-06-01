@@ -6,26 +6,29 @@
 typedef struct
 {
     Rectangle rect;
+    float padding;
+
     Color bg_color;
     Color border_color;
-    int border_thickness;
-
-    Font font;
-    int font_size;
+    int   border_thickness;
+    
+    Font  font;
+    float font_size;
+    float font_spacing;
     Color text_color;
-
-    char name[256];
-    Color name_color;
-
+    
     char *text;
+    char *wrapped_text;
     float typing_speed; // Characters per second
     float timer;        // How much seconds passed
-    int max_text_length;
 } TextBox;
 
-void TextBoxInit(TextBox *tb, int screenWidth, int screenHeight);
-void TextBoxSetText(TextBox *tb, const char *name, const char *text);
-void TextBoxDraw(TextBox *tb);
+void TextBoxReflow(TextBox *tb);
+
+void TextBoxInit(TextBox *tb, Rectangle rect, Font gameFont);
 void TextBoxCleanup(TextBox *tb);
 
+void TextBoxUpdate(TextBox *tb, float dt);
+void TextBoxSetText(TextBox *tb, const char *text);
+void TextBoxDraw(const TextBox *tb);
 #endif

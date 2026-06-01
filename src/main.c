@@ -24,29 +24,54 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 int main(void)
 {
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
-
+    int screenWidth = 1280;
+    int screenHeight = 720;
+    
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Vinora Engine");
+    SetWindowMinSize(800, 600);
     SetTargetFPS(60);
 
-    TextBox dialogueBox;
-    TextBoxInit(&dialogueBox, screenWidth, screenHeight);
+    Font gameFont = LoadFontEx("assets/fonts/NotoSans-Regular.ttf", 32, 
+                                NULL, 1240);
+    SetTextureFilter(gameFont.texture, TEXTURE_FILTER_BILINEAR);
 
-    TextBoxSetText(&dialogueBox, "",
-                   "Hello from Vinora Engine textbox!\n\n"
-                   "D-d-do you like it or something? :3");
+    Rectangle box_rect = { 40, (float)screenHeight - 180, 
+                               (float)screenWidth  - 80, 160 };
+    TextBox dialogueBox;
+    TextBoxInit(&dialogueBox, box_rect, gameFont);
+
+    TextBoxSetText(&dialogueBox,
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
+    "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris "
+    "nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in"
+    "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla "
+    "pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
+    "qui officia deserunt mollit anim id est laborum.");
 
     while (!WindowShouldClose())
     {
-        dialogueBox.timer += GetFrameTime();
+        float dt = GetFrameTime();
+        TextBoxUpdate(&dialogueBox, dt);
+        
+        if (IsWindowResized()) {
+            screenWidth  = GetScreenWidth();
+            screenHeight = GetScreenHeight();
+            dialogueBox.rect = (Rectangle){40, (float)screenHeight - 180, 
+                                               (float)screenWidth  - 80, 160};
+            TextBoxReflow(&dialogueBox);
+        }
+
         BeginDrawing();
             ClearBackground(BLACK);
             TextBoxDraw(&dialogueBox);
         EndDrawing();
+
     }
 
     TextBoxCleanup(&dialogueBox);
+    UnloadFont(gameFont);
     CloseWindow();
     return 0;
 }
