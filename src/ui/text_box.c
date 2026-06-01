@@ -103,10 +103,11 @@ void TextBoxDraw(const TextBox *tb)
         DrawRectangleLinesEx(tb->rect, tb->border_thickness, tb->border_color);
     if (tb->wrapped_text && tb->wrapped_text[0] != '\0')
     {
-        int max_chars = (tb->typing_speed > 0) 
+        int max_glyphs = (tb->typing_speed > 0)
             ? (int)(tb->timer * tb->typing_speed)
             : (int)strlen(tb->wrapped_text);
-        const char *visible_text = TextSubtext(tb->wrapped_text, 0, max_chars);
+        int byte_len = GetUtf8ByteLength(tb->wrapped_text, max_glyphs);
+        const char *visible_text = TextSubtext(tb->wrapped_text, 0, byte_len);
 
         Vector2 text_pos = {
             tb->rect.x + tb->padding,
