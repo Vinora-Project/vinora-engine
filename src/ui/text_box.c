@@ -41,7 +41,7 @@ void TextBoxReflow(TextBox *tb)
         }
         return;
     }
-    float min_size = 12.0f;
+    float min_size = 16.0f;
     float current_size = tb->base_font_size;
     
     float max_width = tb->rect.width - (tb->padding * 2);
@@ -49,7 +49,7 @@ void TextBoxReflow(TextBox *tb)
     
     char *temp_wrapped = NULL;
     
-    while (current_size >= min_size)
+    while (current_size > min_size)
     {
         if (temp_wrapped) {
             free(temp_wrapped);
@@ -71,7 +71,7 @@ void TextBoxReflow(TextBox *tb)
 
     if (current_size < min_size)
         TraceLog(LOG_WARNING, 
-                "[Vinora] Text too long! Even with %f font_size!", min_size);
+            "[Vinora] Text too long! Even with %f font_size!", current_size);
 }
 
 void TextBoxUpdate(TextBox *tb, float dt)
