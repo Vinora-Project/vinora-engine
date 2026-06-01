@@ -14,6 +14,7 @@ typedef struct
     
     Font  font;
     float font_size;
+    float base_font_size;
     float font_spacing;
     Color text_color;
     

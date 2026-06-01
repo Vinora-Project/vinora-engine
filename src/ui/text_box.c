@@ -14,7 +14,8 @@ void TextBoxInit(TextBox *tb, Rectangle rect, Font gameFont)
     tb->border_thickness = 3;
     
     tb->font = gameFont;
-    tb->font_size = 24;
+    tb->font_size = 24.0f;
+    tb->base_font_size = 24.0f;
     tb->font_spacing = 1.0f;
     tb->text_color = WHITE;
 
@@ -33,16 +34,44 @@ void TextBoxCleanup(TextBox *tb)
 
 void TextBoxReflow(TextBox *tb)
 {
-    if (tb->wrapped_text) {
-        free(tb->wrapped_text);
-        tb->wrapped_text = NULL;
+    if (!tb->text || tb->text[0] == '\0') {
+        if (tb->wrapped_text) {
+            free(tb->wrapped_text);
+            tb->wrapped_text = NULL;
+        }
+        return;
     }
+    float min_size = 12.0f;
+    float current_size = tb->base_font_size;
+    
+    float max_width = tb->rect.width - (tb->padding * 2);
+    float max_height = tb->rect.height - (tb->padding * 2);
+    
+    char *temp_wrapped = NULL;
+    
+    while (current_size >= min_size)
+    {
+        if (temp_wrapped) {
+            free(temp_wrapped);
+            temp_wrapped = NULL;
+        }
+        temp_wrapped = WrapText(tb->font, tb->text, current_size,
+                                tb->font_spacing, max_width);
+        Vector2 text_size = MeasureTextEx(tb->font, temp_wrapped,
+                                          current_size, tb->font_spacing);
+        if (text_size.y <= max_height)
+            break;
+        current_size -= 1.0f;
+    }
+    tb->font_size = current_size;
 
-    if (tb->text) {
-        float max_text_width = tb->rect.width - (tb->padding * 2);
-        tb->wrapped_text = WrapText(tb->font, tb->text, tb->font_size,
-                                    tb->font_spacing, max_text_width);
-    }
+    if (tb->wrapped_text)
+        free(tb->wrapped_text);
+    tb->wrapped_text = temp_wrapped;
+
+    if (current_size < min_size)
+        TraceLog(LOG_WARNING, 
+                "[Vinora] Text too long! Even with %f font_size!", min_size);
 }
 
 void TextBoxUpdate(TextBox *tb, float dt)
