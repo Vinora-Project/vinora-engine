@@ -92,23 +92,15 @@ static int GetUtf8ByteLength(const char *text, int count)
 
     while (text[byte_len] != '\0' && glyph_count < count)
     {
-        unsigned char c = (unsigned char)text[byte_len];
         int current_char_len = 1;
+        int codepoint = GetCodepoint(&text[byte_len], &current_char_len);
 
-        if (c >= 0xF0)      current_char_len = 4; // Emoji (unsupported) 
-        else if (c >= 0xE0) current_char_len = 3; // CJK
-        else if (c >= 0xC0) current_char_len = 2; // Cyryllic
-        else                current_char_len = 1; // ASCII
+        // Broken byte
+        if (current_char_len <= 0) current_char_len = 1;
 
-        for (int i = 0; i < current_char_len; i++) {
-            if (text[byte_len + i] == '\0') {
-                return byte_len;
-            }
-        }
-
-        // Skipping emojis...
-        if (current_char_len == 4) {
-            byte_len += 4; 
+        // Characters beyond BMP (0xFFFF) are unsupported by spec.
+        if (codepoint > 0xFFFF) {
+            byte_len += current_char_len; 
             continue; 
         }
 
