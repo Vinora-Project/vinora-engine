@@ -18,6 +18,17 @@ GNU General Public License for more details.
 #include <string.h>
 #include <stdlib.h>
 
+
+static int utfCharLength(unsigned char first_byte)
+{
+    if (first_byte < 0x80)        return 1;   // 0xxxxxxx
+    if (first_byte < 0xE0)        return 2;   // 110xxxxx
+    if (first_byte < 0xF0)        return 3;   // 1110xxxx
+    if (first_byte < 0xF5)        return 4;   // 11110xxx
+
+    return 0;
+}
+
 static char *my_strdup(const char *s)
 {
     if (!s) return NULL;
@@ -33,51 +44,58 @@ static char *WrapText(Font font, const char *text, float fontSize,
 {
     if (!text || text[0] == '\0') return my_strdup("");
 
-    char *result = my_strdup(text);
+    int orig_len = (int)strlen(text);
+    char *result = malloc(orig_len * 2 + 8);
     if (!result) return NULL;
+    memcpy(result, text, orig_len + 1);
 
-    int length = strlen(result);
-    int lastSpaceIdx = -1;
-    int currentLineStartIdx = 0;
+    int i               = 0;
+    int resultLen       = orig_len;
+    int lastSpaceIdx    = -1;
+    int lineStart       = 0;
 
-    for (int i = 0; i < length; i++)
-    {
-        if (result[i] == ' ') {
-            lastSpaceIdx = i;
-        }
-        else if (result[i] == '\n') {
-            currentLineStartIdx = i + 1;
+    while (i < resultLen) {
+        unsigned char c = (unsigned char)result[i];
+
+        if (c == '\n') {
+            lineStart    = i + 1;
             lastSpaceIdx = -1;
+            i++;
             continue;
         }
 
-        char savedChar = result[i + 1];
-        result[i + 1] = '\0';
+        int cpLen = utfCharLength(c);
+        if (cpLen <= 0) { i++; continue; }
 
-        Vector2 size = MeasureTextEx(font, &result[currentLineStartIdx],
-                                     fontSize, spacing);
-        
-        result[i + 1] = savedChar;
+        if (c == ' ')
+            lastSpaceIdx = i;
 
-        if (size.x > maxWidth)
-        {
-            if (lastSpaceIdx != -1 && lastSpaceIdx >= currentLineStartIdx)
-            {
+        char saved = result[i + cpLen];
+        result[i + cpLen] = '\0';
+        Vector2 size = MeasureTextEx(font, &result[lineStart], fontSize,
+                                     spacing);
+        result[i + cpLen] = saved;
+
+        if (size.x > maxWidth) {
+            if (lastSpaceIdx >= lineStart) {
                 result[lastSpaceIdx] = '\n';
-                currentLineStartIdx = lastSpaceIdx + 1;
+                lineStart    = lastSpaceIdx + 1;
                 lastSpaceIdx = -1;
-                i = currentLineStartIdx - 1; 
+                i = lineStart;
             }
-            else
-            {
-                if (i > currentLineStartIdx) 
-                {
-                    result[i] = '\n';
-                    currentLineStartIdx = i;
-                    lastSpaceIdx = -1;
-                }
+            else if (i > lineStart) {
+                memmove(&result[i + 1], &result[i], resultLen - i + 1);
+                result[i] = '\n';
+                resultLen++;
+                lineStart    = i + 1;
+                lastSpaceIdx = -1;
+                i = lineStart;
             }
+            else // Even a single symbol can't be displayed
+                i += cpLen;
         }
+        else
+            i += cpLen;
     }
 
     return result;
@@ -90,8 +108,7 @@ static int GetUtf8ByteLength(const char *text, int count)
     int byte_len = 0;
     int glyph_count = 0;
 
-    while (text[byte_len] != '\0' && glyph_count < count)
-    {
+    while (text[byte_len] != '\0' && glyph_count < count) {
         int current_char_len = 1;
         int codepoint = GetCodepoint(&text[byte_len], &current_char_len);
 

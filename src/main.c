@@ -25,7 +25,7 @@ int main(void)
     
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Vinora Engine");
-    SetWindowMinSize(800, 600);
+    //SetWindowMinSize(800, 600);
     SetTargetFPS(60);
 
     int codepointCount = 0;
