@@ -30,7 +30,7 @@ static int *GenerateFontCodepoints(int *outCount)
     UnicodeBlock blocks[] = {
         { 32, 126, "ASCII (English, Numbers, Punctuation)" },
         { 0x0400, 0x04FF, "Cyrillic (Russian)" },
-        { 0x0590, 0x05FF, "Hebrew" },
+        { 0xAC00, 0xD7AF, "Korean Hangul Syllables" },
         { 0x3000, 0x303F, "Japanese CJK Symbols and Punctuation" },
         { 0x3040, 0x309F, "Japanese Hiragana" },
         { 0x30A0, 0x30FF, "Japanese Katakana" },
