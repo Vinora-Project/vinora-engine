@@ -25,7 +25,7 @@ typedef struct {
     const char *name;
 } UnicodeBlock;
 
-int *GenerateFontCodepoints(int *outCount) 
+static int *GenerateFontCodepoints(int *outCount) 
 {
     UnicodeBlock blocks[] = {
         { 32, 126, "ASCII (English, Numbers, Punctuation)" },
