@@ -14,9 +14,9 @@ GNU General Public License for more details.
 */
 
 #include "raylib.h"
-#include <stdio.h>
 #include "ui/text_box.h"
 #include "ui/font_manager.h"
+#include <stdio.h>
 
 int main(void)
 {
@@ -25,7 +25,7 @@ int main(void)
     
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Vinora Engine");
-    //SetWindowMinSize(800, 600);
+    SetWindowMinSize(800, 600);
     SetTargetFPS(60);
 
     int codepointCount = 0;
@@ -45,6 +45,9 @@ int main(void)
     TextBoxInit(&dialogueBox, box_rect, gameFont);
 
     TextBoxSetText(&dialogueBox,
+    // LINE 0: Digits
+    "123456789 123456789 123456789 123456789 "
+    "123456789 123456789 123456789 123456789_\n"
     // LINE 1: English (Latin)
     "\x4E\x65\x76\x65\x72\x20\x67\x6F\x6E\x6E\x61\x20\x67\x69\x76\x65"
     "\x20\x79\x6F\x75\x20\x75\x70\x2E\x0A"
@@ -85,7 +88,7 @@ int main(void)
                     ((float)screenWidth - (float)screenWidth*5.0f/6.0f)/2.0f, 
                     (float)screenHeight - 180, 
                     (float)screenWidth * 5.0f / 6.0f, 
-                    160 
+                    165 
                 };
             TextBoxReflow(&dialogueBox);
         }
