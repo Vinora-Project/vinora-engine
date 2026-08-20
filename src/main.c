@@ -16,6 +16,10 @@ GNU General Public License for more details.
 #include "raylib.h"
 #include "ui/font_manager.h"
 #include "game.h"
+#include "text_utils.h"
+
+#include <string.h>
+#include <stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -25,7 +29,18 @@ int main(int argc, char **argv)
     Font gameFont = { 0 };
     GameState game = { 0 };
 
-    if (argc > 1) scenePath = argv[1];
+    if (argc > 1) {
+        if (0 == strcmp("--help", argv[1]) || 0 == strcmp("-h", argv[1])) {
+            printf("Usage: %s file.vnrs\n", argv[0]);
+            return 0;
+        } else if (EndsWith(argv[1], ".vnrs"))
+            scenePath = argv[1];
+        else {
+            fprintf(stderr, "Bad argument!\n");
+            fprintf(stderr, "Usage: %s file.vnrs\n", argv[0]);
+            return 1;
+        }
+    }
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "Vinora Engine");
