@@ -1,5 +1,5 @@
 /*
-font_manager.h -- font manage functions for Vinora Engine
+parser.h -- Vinora Screenplay scene reader
 Copyright (c) 2026 Evgeniy Parfenyuk <parthen@riseup.net>
 
 This program is free software: you can redistribute it and/or modify
@@ -13,11 +13,21 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 */
 
-#ifndef FONT_MANAGER_H
-#define FONT_MANAGER_H
+#ifndef VNRS_PARSER_H
+#define VNRS_PARSER_H
 
-#include "raylib.h"
+#include <stdio.h>
 
-Font LoadGameFont(const char *path, int fontSize);
+typedef struct
+{
+    FILE *file;
+    char *currentChunk;
+    int lineNumber;
+    int finished;
+} Scene;
+
+int SceneOpen(Scene *scene, const char *path);
+int SceneReadNext(Scene *scene);
+void SceneClose(Scene *scene);
 
 #endif

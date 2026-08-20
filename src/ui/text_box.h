@@ -23,28 +23,30 @@ typedef struct
     Rectangle rect;
     float padding;
 
-    Color bg_color;
-    Color border_color;
-    int   border_thickness;
-    
-    Font  font;
-    float font_size;
-    float base_font_size;
-    float font_spacing;
-    Color text_color;
-    
-    char *text;
-    char *wrapped_text;
-    float typing_speed; // Characters per second
-    float timer;        // How much seconds passed
-} TextBox;
+    Color bgColor;
+    Color borderColor;
+    int borderThickness;
 
-void TextBoxReflow(TextBox *tb);
+    Font font;
+    float fontSize;
+    float baseFontSize;
+    float fontSpacing;
+    Color textColor;
+
+    char *text;
+    char *wrappedText;
+    int glyphCount;
+    float typingSpeed; // Characters per second
+    float timer;       // Seconds since the current text was set
+} TextBox;
 
 void TextBoxInit(TextBox *tb, Rectangle rect, Font gameFont);
 void TextBoxCleanup(TextBox *tb);
-
+void TextBoxReflow(TextBox *tb);
 void TextBoxUpdate(TextBox *tb, float dt);
 void TextBoxSetText(TextBox *tb, const char *text);
+void TextBoxSkip(TextBox *tb);
+int TextBoxIsComplete(const TextBox *tb);
 void TextBoxDraw(const TextBox *tb);
+
 #endif

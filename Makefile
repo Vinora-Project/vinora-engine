@@ -1,5 +1,5 @@
 CC       := gcc
-CFLAGS   := -Wall -Wextra -Wpedantic -Werror -std=c99
+CFLAGS   := -Wall -Wextra -Wpedantic -Werror -std=c99 -g -O0
 INCLUDES := -Iext/raylib/src/ -Isrc/
 LDFLAGS  := -Lext/raylib/src/
 LIBS     := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
@@ -36,4 +36,4 @@ rebuild: clean all
 style-check:
 	clang-format -n $(SOURCES)
 
-.PHONY: all raylib run clean clean-all rebuild
+.PHONY: all raylib run clean nuke rebuild style-check
