@@ -32,7 +32,7 @@ int main(int argc, char **argv)
     SetWindowMinSize(800, 600);
     SetTargetFPS(60);
 
-    gameFont = LoadGameFont("assets/fonts/unifont.otf", 32);
+    gameFont = LoadGameFont("assets/fonts/mplus_regular.ttf", 64);
     GameStateInit(&game, gameFont, scenePath);
 
     while (!WindowShouldClose())

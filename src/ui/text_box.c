@@ -30,8 +30,8 @@ void TextBoxInit(TextBox *tb, Rectangle rect, Font gameFont)
     tb->borderThickness = 3;
 
     tb->font = gameFont;
-    tb->fontSize = 24.0f;
-    tb->baseFontSize = 24.0f;
+    tb->fontSize = 32.0f;
+    tb->baseFontSize = 32.0f;
     tb->fontSpacing = 1.0f;
     tb->textColor = WHITE;
 
