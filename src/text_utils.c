@@ -150,13 +150,14 @@ int CountUtf8Glyphs(const char *text)
     return count;
 }
 
-bool EndsWith(const char *str, const char *suffix) {
-    if (!str || !suffix) return false; 
+bool EndsWith(const char *str, const char *suffix)
+{
+    if (!str || !suffix) return false;
 
-    size_t str_len = strlen(str);
-    size_t suffix_len = strlen(suffix);
+    size_t strLen = strlen(str);
+    size_t suffixLen = strlen(suffix);
 
-    if (suffix_len > str_len) return false;
+    if (suffixLen > strLen) return false;
 
-    return 0 == strcmp(str + str_len - suffix_len, suffix);
+    return 0 == strcmp(str + strLen - suffixLen, suffix);
 }
