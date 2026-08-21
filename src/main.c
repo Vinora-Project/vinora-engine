@@ -21,9 +21,17 @@ GNU General Public License for more details.
 #include <string.h>
 #include <stdio.h>
 
+static void PrintUsage(FILE *out, const char *argv0)
+{
+    fprintf(out, "Usage: %s [file.vnrs]\n", argv0);
+    fprintf(out, "       %s -h | --help\n", argv0);
+    fprintf(out, "\n");
+    fprintf(out, "If no file is given, assets/alice.vnrs is loaded.\n");
+}
+
 int main(int argc, char **argv)
 {
-    const char *scenePath = "assets/lorem.vnrs";
+    const char *scenePath = "assets/alice.vnrs";
     int screenWidth = 1280;
     int screenHeight = 720;
     Font gameFont = {0};
@@ -32,13 +40,13 @@ int main(int argc, char **argv)
     if (argc > 1) {
         if (0 == strcmp("--help", argv[1]) ||
             0 == strcmp("-h", argv[1])) {
-            printf("Usage: %s file.vnrs\n", argv[0]);
+            PrintUsage(stdout, argv[0]);
             return 0;
         } else if (EndsWith(argv[1], ".vnrs")) {
             scenePath = argv[1];
         } else {
-            fprintf(stderr, "Bad argument!\n");
-            fprintf(stderr, "Usage: %s file.vnrs\n", argv[0]);
+            fprintf(stderr, "Bad argument: %s\n", argv[1]);
+            PrintUsage(stderr, argv[0]);
             return 1;
         }
     }
