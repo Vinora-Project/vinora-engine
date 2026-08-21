@@ -26,15 +26,15 @@ typedef struct {
 static int *GenerateFontCodepoints(int *outCount)
 {
     UnicodeBlock blocks[] = {
-        { 32, 126, "ASCII (English, Numbers, Punctuation)" },
-        { 0x0400, 0x04FF, "Cyrillic (Russian)" },
-        { 0xAC00, 0xD7AF, "Korean Hangul Syllables" },
-        { 0x3000, 0x303F, "Japanese CJK Symbols and Punctuation" },
-        { 0x3040, 0x309F, "Japanese Hiragana" },
-        { 0x30A0, 0x30FF, "Japanese Katakana" },
-        { 0x4E00, 0x9FFF, "CJK Unified Ideographs (Kanji / Chinese)" }
+        {32, 126, "ASCII (English, Numbers, Punctuation)"},
+        {0x0400, 0x04FF, "Cyrillic (Russian)"},
+        {0xAC00, 0xD7AF, "Korean Hangul Syllables"},
+        {0x3000, 0x303F, "Japanese CJK Symbols and Punctuation"},
+        {0x3040, 0x309F, "Japanese Hiragana"},
+        {0x30A0, 0x30FF, "Japanese Katakana"},
+        {0x4E00, 0x9FFF, "CJK Unified Ideographs (Kanji / Chinese)"},
     };
-    int blockCount = (int)(sizeof(blocks)/sizeof(blocks[0]));
+    int blockCount = (int)(sizeof(blocks) / sizeof(blocks[0]));
     int totalCapacity = 0;
     int *codepoints = NULL;
     int index = 0;
@@ -44,7 +44,7 @@ static int *GenerateFontCodepoints(int *outCount)
         totalCapacity += (blocks[i].end - blocks[i].start + 1);
     }
 
-    codepoints = (int *)malloc(sizeof(int)*(size_t)totalCapacity);
+    codepoints = (int *)malloc(sizeof(int) * (size_t)totalCapacity);
     if (codepoints == NULL) {
         TraceLog(LOG_ERROR, "[Vinora] Language font loading error!");
         *outCount = 0;

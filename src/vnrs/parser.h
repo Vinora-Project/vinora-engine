@@ -18,8 +18,7 @@ GNU General Public License for more details.
 
 #include <stdio.h>
 
-typedef struct
-{
+typedef struct {
     FILE *file;
     char *currentChunk;
     int lineNumber;

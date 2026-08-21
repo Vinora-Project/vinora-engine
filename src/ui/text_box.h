@@ -18,8 +18,7 @@ GNU General Public License for more details.
 
 #include "raylib.h"
 
-typedef struct
-{
+typedef struct {
     Rectangle rect;
     float padding;
 
@@ -37,7 +36,7 @@ typedef struct
     char *wrappedText;
     int glyphCount;
     float typingSpeed; // Characters per second
-    float timer;       // Seconds since the current text was set
+    float timer; // Seconds since the current text was set
 } TextBox;
 
 void TextBoxInit(TextBox *tb, Rectangle rect, Font gameFont);

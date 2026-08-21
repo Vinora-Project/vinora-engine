@@ -15,24 +15,24 @@ GNU General Public License for more details.
 
 #include "game.h"
 
-#define DIALOGUE_WIDTH_RATIO (5.0f/6.0f)
+#define DIALOGUE_WIDTH_RATIO (5.0f / 6.0f)
 #define DIALOGUE_HEIGHT 160.0f
 #define DIALOGUE_BOTTOM_GAP 20.0f
 
 static Rectangle DialogueBoxRect(int screenWidth, int screenHeight)
 {
-    float width = (float)screenWidth*DIALOGUE_WIDTH_RATIO;
-    float x = ((float)screenWidth - width)/2.0f;
+    float width = (float)screenWidth * DIALOGUE_WIDTH_RATIO;
+    float x = ((float)screenWidth - width) / 2.0f;
     float y = (float)screenHeight - DIALOGUE_HEIGHT - DIALOGUE_BOTTOM_GAP;
 
-    return (Rectangle){ x, y, width, DIALOGUE_HEIGHT };
+    return (Rectangle){x, y, width, DIALOGUE_HEIGHT};
 }
 
 static int AdvancePressed(void)
 {
     return (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) ||
-            IsKeyPressed(KEY_SPACE) ||
-            IsKeyPressed(KEY_ENTER));
+        IsKeyPressed(KEY_SPACE) ||
+        IsKeyPressed(KEY_ENTER));
 }
 
 static void ShowNextChunk(GameState *gs)
@@ -47,9 +47,9 @@ static void ShowNextChunk(GameState *gs)
 
 void GameStateInit(GameState *gs, Font font, const char *scenePath)
 {
-    Rectangle boxRect = { 0 };
+    Rectangle boxRect = {0};
 
-    *gs = (GameState){ 0 };
+    *gs = (GameState){0};
     gs->currentState = state_loading;
 
     boxRect = DialogueBoxRect(GetScreenWidth(), GetScreenHeight());
@@ -66,8 +66,10 @@ void GameStateUpdate(GameState *gs, float dt)
 {
     TextBoxUpdate(&gs->dialogueBox, dt);
 
-    if (gs->currentState != state_dialogue) return;
-    if (!AdvancePressed()) return;
+    if (gs->currentState != state_dialogue)
+        return;
+    if (!AdvancePressed())
+        return;
 
     if (!TextBoxIsComplete(&gs->dialogueBox)) {
         TextBoxSkip(&gs->dialogueBox);
@@ -85,7 +87,7 @@ void GameStateDraw(const GameState *gs)
 void GameStateResize(GameState *gs)
 {
     gs->dialogueBox.rect = DialogueBoxRect(GetScreenWidth(),
-                                           GetScreenHeight());
+        GetScreenHeight());
     TextBoxReflow(&gs->dialogueBox);
 }
 

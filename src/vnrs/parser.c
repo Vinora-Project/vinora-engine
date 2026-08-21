@@ -41,7 +41,8 @@ static int IsWhitespace(char c)
 static int LineIsEmpty(const char *s)
 {
     while (*s) {
-        if (!IsWhitespace(*s)) return 0;
+        if (!IsWhitespace(*s))
+            return 0;
         s++;
     }
     return 1;
@@ -56,10 +57,14 @@ static int Utf8CharCount(const char *s)
         int step = 1;
         int i = 0;
 
-        if (*p < 0x80) step = 1;
-        else if (*p < 0xE0) step = 2;
-        else if (*p < 0xF0) step = 3;
-        else step = 4;
+        if (*p < 0x80)
+            step = 1;
+        else if (*p < 0xE0)
+            step = 2;
+        else if (*p < 0xF0)
+            step = 3;
+        else
+            step = 4;
 
         for (i = 1; i < step; i++) {
             if (p[i] == '\0') {
@@ -91,7 +96,8 @@ static int AppendLine(char **buf, size_t *len, const char *line)
     int addSpace = (*len > 0);
     char *next = NULL;
 
-    if (addSpace) extra += 1;
+    if (addSpace)
+        extra += 1;
 
     next = (char *)realloc(*buf, *len + extra + 1);
     if (!next) {
@@ -133,10 +139,10 @@ int SceneReadNext(Scene *scene)
         scene->currentChunk = NULL;
     }
 
-    if (!scene->file || scene->finished) return 0;
+    if (!scene->file || scene->finished)
+        return 0;
 
-    while (fgets(line, (int)sizeof(line), scene->file) != NULL)
-    {
+    while (fgets(line, (int)sizeof(line), scene->file) != NULL) {
         scene->lineNumber++;
         StripNewline(line);
         WarnIfLong(scene->lineNumber, line);
@@ -156,12 +162,12 @@ int SceneReadNext(Scene *scene)
         return 0;
     }
 
-    while (fgets(line, (int)sizeof(line), scene->file) != NULL)
-    {
+    while (fgets(line, (int)sizeof(line), scene->file) != NULL) {
         scene->lineNumber++;
         StripNewline(line);
         WarnIfLong(scene->lineNumber, line);
-        if (LineIsEmpty(line)) break;
+        if (LineIsEmpty(line))
+            break;
         if (!AppendLine(&buf, &bufLen, line)) {
             free(buf);
             return 0;

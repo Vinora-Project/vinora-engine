@@ -28,8 +28,7 @@ typedef enum {
     state_end
 } GameStateType;
 
-typedef struct
-{
+typedef struct {
     GameStateType currentState;
     TextBox dialogueBox;
     Scene scene;

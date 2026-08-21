@@ -1,61 +1,67 @@
-# Raylib C Coding Style Configuration
-
-BasedOnStyle: LLVM
+# Mirrors CONVENTIONS.md. If that file is followed, this must be silent.
 Language: Cpp
+BasedOnStyle: LLVM
 
-# Indentation and spacing
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
 IndentCaseLabels: false
+IndentPPDirectives: None
+ContinuationIndentWidth: 4
 
-# Brace style - Allman style
-BraceWrapping:
-  AfterCaseLabel: true
-  AfterClass: true
-  AfterControlStatement: Always
-  AfterEnum: true
-  AfterFunction: true
-  AfterNamespace: true
-  AfterStruct: true
-  AfterUnion: true
-  BeforeCatch: true
-  BeforeElse: true
-  IndentBraces: false
-
-# Line breaking and formatting
 ColumnLimit: 0
 MaxEmptyLinesToKeep: 1
 KeepEmptyLinesAtTheStartOfBlocks: false
 ReflowComments: false
 
-# Control statements
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
-BreakBeforeBraces: Custom
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+InsertBraces: false
+RemoveBracesLLVM: false
 
-# Include sorting
-IncludeCategories:
-  - Regex: '^"raylib.h"'
-    Priority: 1
-  - Regex: '^"raymath.h"'
-    Priority: 2
-  - Regex: '^"rlgl.h"'
-    Priority: 3
-  - Regex: '^<.*'
-    Priority: 4
-  - Regex: '.*'
-    Priority: 5
+# CONVENTIONS: Vector2 playerPosition = {0};
+Cpp11BracedListStyle: true
+SpaceBeforeCpp11BracedList: false
 
-SortIncludes: CaseSensitive
+# CONVENTIONS does not rank includes
+SortIncludes: Never
+IncludeBlocks: Preserve
 
-# Other settings
-NamespaceIndentation: None
-AccessModifierOffset: -4
-IndentAccessModifiers: false
-AlignAfterOpenBracket: Align
-AlignOperands: Align
+# CONVENTIONS: MyType *pointer
+PointerAlignment: Right
+DerivePointerAlignment: false
+ReferenceAlignment: Pointer
+QualifierAlignment: Leave
+
+# Wrap by one indent, do not hang-align to '('.
+AlignAfterOpenBracket: DontAlign
+AlignOperands: false
+AlignTrailingComments: false
+BinPackArguments: true
+BinPackParameters: true
+
+SpaceBeforeParens: ControlStatements
+SpaceBeforeAssignmentOperators: true
+SpaceAfterCStyleCast: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceInEmptyParentheses: false
+SpaceInEmptyBlock: false
+SpacesInCStyleCastParentheses: false

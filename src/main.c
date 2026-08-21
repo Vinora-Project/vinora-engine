@@ -26,16 +26,17 @@ int main(int argc, char **argv)
     const char *scenePath = "assets/lorem.vnrs";
     int screenWidth = 1280;
     int screenHeight = 720;
-    Font gameFont = { 0 };
-    GameState game = { 0 };
+    Font gameFont = {0};
+    GameState game = {0};
 
     if (argc > 1) {
-        if (0 == strcmp("--help", argv[1]) || 0 == strcmp("-h", argv[1])) {
+        if (0 == strcmp("--help", argv[1]) ||
+            0 == strcmp("-h", argv[1])) {
             printf("Usage: %s file.vnrs\n", argv[0]);
             return 0;
-        } else if (EndsWith(argv[1], ".vnrs"))
+        } else if (EndsWith(argv[1], ".vnrs")) {
             scenePath = argv[1];
-        else {
+        } else {
             fprintf(stderr, "Bad argument!\n");
             fprintf(stderr, "Usage: %s file.vnrs\n", argv[0]);
             return 1;
@@ -50,16 +51,16 @@ int main(int argc, char **argv)
     gameFont = LoadGameFont("assets/fonts/mplus_regular.ttf", 64);
     GameStateInit(&game, gameFont, scenePath);
 
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()) {
         float dt = GetFrameTime();
         GameStateUpdate(&game, dt);
 
-        if (IsWindowResized()) GameStateResize(&game);
+        if (IsWindowResized())
+            GameStateResize(&game);
 
         BeginDrawing();
-            ClearBackground(BLACK);
-            GameStateDraw(&game);
+        ClearBackground(BLACK);
+        GameStateDraw(&game);
         EndDrawing();
     }
 

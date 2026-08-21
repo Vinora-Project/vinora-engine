@@ -23,16 +23,18 @@ char *StrDup(const char *s)
     size_t n = 0;
     char *p = NULL;
 
-    if (!s) return NULL;
+    if (!s)
+        return NULL;
     n = strlen(s) + 1;
     p = malloc(n);
-    if (!p) return NULL;
+    if (!p)
+        return NULL;
     memcpy(p, s, n);
     return p;
 }
 
 char *WrapText(Font font, const char *text, float fontSize,
-               float spacing, float maxWidth)
+    float spacing, float maxWidth)
 {
     int origLen = 0;
     char *result = NULL;
@@ -41,21 +43,22 @@ char *WrapText(Font font, const char *text, float fontSize,
     int lastSpaceIdx = -1;
     int lineStart = 0;
 
-    if (!text || text[0] == '\0') return StrDup("");
+    if (!text || text[0] == '\0')
+        return StrDup("");
 
     origLen = (int)strlen(text);
-    result = malloc((size_t)origLen*2 + 8);
-    if (!result) return NULL;
+    result = malloc((size_t)origLen * 2 + 8);
+    if (!result)
+        return NULL;
     memcpy(result, text, (size_t)origLen + 1);
 
     resultLen = origLen;
 
-    while (i < resultLen)
-    {
+    while (i < resultLen) {
         unsigned char c = (unsigned char)result[i];
         int cpLen = 0;
         char saved = 0;
-        Vector2 size = { 0 };
+        Vector2 size = {0};
 
         if (c == '\n') {
             lineStart = i + 1;
@@ -70,7 +73,8 @@ char *WrapText(Font font, const char *text, float fontSize,
             continue;
         }
 
-        if (c == ' ') lastSpaceIdx = i;
+        if (c == ' ')
+            lastSpaceIdx = i;
 
         saved = result[i + cpLen];
         result[i + cpLen] = '\0';
@@ -85,7 +89,7 @@ char *WrapText(Font font, const char *text, float fontSize,
                 i = lineStart;
             } else if (i > lineStart) {
                 memmove(&result[i + 1], &result[i],
-                        (size_t)(resultLen - i + 1));
+                    (size_t)(resultLen - i + 1));
                 result[i] = '\n';
                 resultLen++;
                 lineStart = i + 1;
@@ -108,14 +112,15 @@ int GetUtf8ByteLength(const char *text, int count)
     int byteLen = 0;
     int glyphCount = 0;
 
-    if (!text || count <= 0) return 0;
+    if (!text || count <= 0)
+        return 0;
 
-    while ((text[byteLen] != '\0') && (glyphCount < count))
-    {
+    while ((text[byteLen] != '\0') && (glyphCount < count)) {
         int currentCharLen = 1;
         int codepoint = GetCodepoint(&text[byteLen], &currentCharLen);
 
-        if (currentCharLen <= 0) currentCharLen = 1;
+        if (currentCharLen <= 0)
+            currentCharLen = 1;
 
         // Characters beyond BMP (0xFFFF) are unsupported by spec.
         if (codepoint > 0xFFFF) {
@@ -135,15 +140,17 @@ int CountUtf8Glyphs(const char *text)
     int i = 0;
     int count = 0;
 
-    if (!text) return 0;
+    if (!text)
+        return 0;
 
-    while (text[i] != '\0')
-    {
+    while (text[i] != '\0') {
         int size = 0;
         int codepoint = GetCodepoint(&text[i], &size);
 
-        if (size <= 0) size = 1;
-        if (codepoint <= 0xFFFF) count++;
+        if (size <= 0)
+            size = 1;
+        if (codepoint <= 0xFFFF)
+            count++;
         i += size;
     }
 
@@ -152,12 +159,17 @@ int CountUtf8Glyphs(const char *text)
 
 bool EndsWith(const char *str, const char *suffix)
 {
-    if (!str || !suffix) return false;
+    size_t strLen = 0;
+    size_t suffixLen = 0;
 
-    size_t strLen = strlen(str);
-    size_t suffixLen = strlen(suffix);
+    if (!str || !suffix)
+        return false;
 
-    if (suffixLen > strLen) return false;
+    strLen = strlen(str);
+    suffixLen = strlen(suffix);
+
+    if (suffixLen > strLen)
+        return false;
 
     return 0 == strcmp(str + strLen - suffixLen, suffix);
 }

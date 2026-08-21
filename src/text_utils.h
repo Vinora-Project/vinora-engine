@@ -20,7 +20,7 @@ GNU General Public License for more details.
 
 char *StrDup(const char *s);
 char *WrapText(Font font, const char *text, float fontSize,
-               float spacing, float maxWidth);
+    float spacing, float maxWidth);
 int GetUtf8ByteLength(const char *text, int count);
 int CountUtf8Glyphs(const char *text);
 bool EndsWith(const char *str, const char *suffix);
