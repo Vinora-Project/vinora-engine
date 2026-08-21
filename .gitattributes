@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+*.c text
+*.h text
+*.md text
+*.txt text
+*.vnrs text
+*.ini text
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.ttf binary
+*.otf binary

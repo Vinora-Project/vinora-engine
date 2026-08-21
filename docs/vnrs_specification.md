@@ -1,5 +1,5 @@
 # VINORA SCREENPLAY SPECIFICATION
-Version 0.0.2 (27.07.2026)
+Version 0.0.3 (21.08.2026)
 Evgeniy "Parthen" Parfenyuk
 
 # 1. Introduction
@@ -23,9 +23,23 @@ familiar with \**italic*\* or \_\___bold__\_\_ syntax. By keeping Vinora
 Screenplay's inline syntax Markdown-like, we lower the learning curve for
 anyone who has ever written a README or a forum post.
 
-## 1.3 Comparison with other languages (TODO)
+## 1.3 Comparison with other languages
 
-[...]
+**Ren'Py.** The 800-pound gorilla. It is a Python engine with a
+scripting language on top. Vinora Screenplay has no scripting.
+If you need a minigame in the middle of a date, Ren'Py is still
+the tool. If you want a screenplay that looks like a screenplay,
+you are in the right place.
+
+**Ink / Yarn Spinner.** Dialogue DSLs with a lot of branching
+machinery. Vinora Screenplay puts every branch in a different
+file on purpose (see S.2.2). Less clever. Easier to diff.
+
+**Twine.** Hypertext, not a visual novel. Close in spirit (links
+are the structure), different on screen.
+
+**Markdown.** Vinora Screenplay *looks* like Markdown. It is not
+Markdown. See S.4.
 
 
 # 2. Definitions
@@ -126,7 +140,7 @@ Chunk boundaries are determined as follows:
 
 2. Each paragraph is classified into exactly one chunk type (S.3.2) by
   inspecting the first line of the paragraph against the chunk-type
-  markers (`::`, `#`, `+` `-` `*`,  `[`, `![`, `[`, `>`, `{{`, ```` ).  
+  markers (`::`, `#`, `+` `-` `*`,  `[`, `![`, `[`, `>`, `{{`, ```` ).
   If no marker matches, the paragraph is a Dialog chunk (S.3.2.1)
    -- the default.
 
@@ -407,7 +421,11 @@ S.5.*
 
 ## 3.3 Inline parser
 
-*(TODO -- unchanged from 0.0.2, not addressed in this revision)*
+Not specified in this revision. The intended baseline is
+Markdown's inline emphasis (`*italic*`, `**bold**`, `_italic_`,
+`__bold__`) and nothing else until we have a good reason.
+
+This section is a known hole, not an accidental omission.
 
 
 # 4. Output pipelines and Markdown compatibility
@@ -426,18 +444,34 @@ off-the-shelf tools -- pandoc, static site generators, ebook packagers,
 etc. This transform is a distinct piece of tooling from the engine's
 parser, and it makes deliberate decisions about VN-only constructs:
 
-| Chunk type | Book export behavior |
-|---|---|
-| Dialog | passed through as-is |
-| Character name | expanded to `**Name**` (or similar) followed by the dialog, using the display name from `characters.ini` |
-| Chapter screen | passed through as-is (`#`...`######`) |
-| Choice | resolved along one chosen path (e.g. the `+` route, or a route selected by export config); `-` blocked and unresolved `*` hidden choices are omitted entirely so they're never shown to a reader |
-| Link | followed, i.e. the next scene's content is appended/linked, not left as a bare link |
-| Images | kept as Markdown images, or omitted, depending on export target |
-| Media | omitted (audio/video have no book/web-static equivalent) |
-| Commentary | stripped unconditionally (see S.3.2.8) |
-| Directive | stripped (NVL/ADV has no meaning outside the engine) |
-| Literal | unwrapped to plain text, markup rendered normally |
+**Dialog** -- passed through as-is.
+
+**Character name** -- expanded to `**Name**` (or similar) followed
+by the dialog, using the display name from `characters.ini`.
+
+**Chapter screen** -- passed through as-is (`#` ... `######`).
+
+**Choice** -- resolved along one chosen path (e.g. the `+` route,
+or a route selected by export config). Blocked (`-`) and unresolved
+hidden (`*`) choices are omitted entirely, so a reader never sees
+them.
+
+**Link** -- followed: the next scene's content is appended, not
+left as a bare link.
+
+**Images** -- kept as Markdown images, or omitted, depending on
+the export target.
+
+**Media** -- omitted (audio/video have no book/web-static
+equivalent).
+
+**Commentary** -- stripped unconditionally (see S.3.2.8).
+
+**Directive** -- stripped (NVL/ADV has no meaning outside the
+engine).
+
+**Literal** -- unwrapped to plain text; markup is then rendered
+normally.
 
 This is why the earlier claim of the format being "compatible with
 Markdown" (v0.0.2, S.1.2) has been retired: piping a raw `.vnrs` file into
