@@ -91,7 +91,8 @@ ext/raylib/   vendored raylib (zlib license)
 
 raylib lives in-tree so `make` does not start with a package-manager
 quest. We did not write it; Ramon did. Credit is in
-[AUTHORS.md](AUTHORS.md).
+[AUTHORS.md](AUTHORS.md). The copy is the library itself -- no
+upstream IDE projects, tools, or extra docs.
 
 ## Contributing
 
