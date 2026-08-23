@@ -1,5 +1,5 @@
 /*
-font_manager.h -- font manage functions for Vinora Engine
+bits.h -- bits editing for Vinora Engine
 Copyright (c) 2026 Evgeniy Parfenyuk <parthen@riseup.net>
 
 This program is free software: you can redistribute it and/or modify
@@ -13,12 +13,12 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 */
 
-#ifndef FONT_MANAGER_H
-#define FONT_MANAGER_H
+#ifndef BITS_H
+#define BITS_H
 
-#include "raylib.h"
+#include <stdbool.h>
 
-Font LoadGameFont(const char *path, int fontSize,
-    const char *scenePath);
+void SetBit(unsigned char *mem, int memSize, int bitId);
+bool IsBitSet(const unsigned char *mem, int memSize, int bitId);
 
 #endif
