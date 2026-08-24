@@ -17,3 +17,14 @@ indent_style = tab
 # Markdown tables are the one place we sometimes lose.
 # Try anyway.
 max_line_length = 80
+
+# Leave the vendored copy alone. It mixes LF sources with CRLF Visual
+# Studio project files; do not "fix" either.
+[ext/raylib/**]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset
+max_line_length = unset
