@@ -26,7 +26,7 @@ static void PrintUsage(FILE *out, const char *argv0)
     fprintf(out, "Usage: %s [file.vnrs]\n", argv0);
     fprintf(out, "       %s -h | --help\n", argv0);
     fprintf(out, "\n");
-    fprintf(out, "If no file is given, assets/alice.vnrs is loaded.\n");
+    fprintf(out, "If no file is given, assets/i18n.vnrs is loaded.\n");
 }
 
 int main(int argc, char **argv)

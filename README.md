@@ -47,7 +47,7 @@ make run
 (`make help` lists the other targets.)
 
 It will build the bundled copy of raylib, then the engine, then
-launch Alice falling down a rabbit-hole.
+open the multilingual smoke test (`assets/i18n.vnrs`).
 
 The first build takes a bit (raylib is not small). Later ones are
 quick.
@@ -55,8 +55,8 @@ quick.
 To play another scene:
 
 ```
-./vinora assets/hamlet.vnrs
-make run assets/i18n.vnrs
+./vinora assets/alice.vnrs
+make run assets/hamlet.vnrs
 ```
 
 Controls: click, Space, or Enter to advance. Close the window to
@@ -69,9 +69,9 @@ https://github.com/raysan5/raylib/wiki/Working-on-GNU-Linux
 
 ## Sample scenes
 
-- `assets/alice.vnrs` -- Alice in Wonderland, chapter I (the default)
+- `assets/i18n.vnrs` -- multilingual smoke test (the default)
+- `assets/alice.vnrs` -- Alice in Wonderland, chapter I
 - `assets/hamlet.vnrs` -- Hamlet, act I scene 1
-- `assets/i18n.vnrs` -- multilingual smoke test (and a rickroll)
 - `assets/lorem.vnrs` -- lorem ipsum, plus one line that is *too*
   long on purpose
 
