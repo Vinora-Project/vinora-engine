@@ -17,10 +17,12 @@ GNU General Public License for more details.
 #include "bits.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #define BMP_LAST_CODEPOINT 0xFFFF
 #define BMP_CODEPOINT_COUNT (BMP_LAST_CODEPOINT + 1)
 #define BMP_BYTE_COUNT (BMP_CODEPOINT_COUNT / 8)
+#define DIR_PATH_MAX 1024
 
 static void MarkUtf8Codepoints(unsigned char *used, int usedSize,
     const char *text)
@@ -42,37 +44,74 @@ static void MarkUtf8Codepoints(unsigned char *used, int usedSize,
     }
 }
 
+static void MarkAscii(unsigned char *used, int usedSize)
+{
+    int cp = 0;
+
+    for (cp = 32; cp <= 126; cp++)
+        SetBit(used, usedSize, cp);
+}
+
+static void MarkSceneFile(unsigned char *used, int usedSize,
+    const char *path)
+{
+    char *text = NULL;
+
+    if (!path)
+        return;
+
+    text = LoadFileText(path);
+    if (!text) {
+        TraceLog(LOG_WARNING,
+            "[Vinora] Cannot read scene for font glyphs: %s",
+            path);
+        return;
+    }
+    MarkUtf8Codepoints(used, usedSize, text);
+    UnloadFileText(text);
+}
+
+static void MarkVnrsInDir(unsigned char *used, int usedSize,
+    const char *dirPath)
+{
+    FilePathList files = {0};
+    unsigned int i = 0;
+
+    if (!dirPath || (dirPath[0] == '\0'))
+        return;
+    if (!DirectoryExists(dirPath))
+        return;
+
+    files = LoadDirectoryFilesEx(dirPath, ".vnrs", true);
+    for (i = 0; i < files.count; i++)
+        MarkSceneFile(used, usedSize, files.paths[i]);
+    UnloadDirectoryFiles(files);
+}
+
 static int *GenerateFontCodepoints(const char *scenePath, int *outCount)
 {
     unsigned char used[BMP_BYTE_COUNT] = {0};
-    char *text = NULL;
     int *codepoints = NULL;
     int count = 0;
     int index = 0;
     int cp = 0;
+    char dirPath[DIR_PATH_MAX] = {0};
 
     *outCount = 0;
+    MarkAscii(used, BMP_BYTE_COUNT);
 
-    if (scenePath)
-        text = LoadFileText(scenePath);
-    if (text) {
-        MarkUtf8Codepoints(used, BMP_BYTE_COUNT, text);
-        UnloadFileText(text);
-    } else {
-        TraceLog(LOG_WARNING,
-            "[Vinora] Cannot read scene for font glyphs: %s",
-            scenePath ? scenePath : "(null)");
+    if (scenePath) {
+        const char *dir = GetDirectoryPath(scenePath);
+
+        MarkSceneFile(used, BMP_BYTE_COUNT, scenePath);
+        if (dir)
+            strncpy(dirPath, dir, DIR_PATH_MAX - 1);
+        MarkVnrsInDir(used, BMP_BYTE_COUNT, dirPath);
     }
 
     for (cp = 0; cp < BMP_CODEPOINT_COUNT; cp++) {
         if (IsBitSet(used, BMP_BYTE_COUNT, cp))
             count++;
-    }
-
-    if (count <= 0) {
-        for (cp = 32; cp <= 126; cp++)
-            SetBit(used, BMP_BYTE_COUNT, cp);
-        count = 95;
     }
 
     codepoints = (int *)malloc(sizeof(int) * (size_t)count);
