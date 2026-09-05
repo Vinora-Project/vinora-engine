@@ -100,6 +100,10 @@ Font LoadGameFont(const char *path, int fontSize, const char *scenePath)
     free(codepoints);
     if (font.texture.id != 0) {
         SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
+        TraceLog(LOG_INFO,
+            "[Vinora] Font atlas %dx%d, glyphs=%d, baseSize=%d",
+            font.texture.width, font.texture.height,
+            font.glyphCount, font.baseSize);
     }
     return font;
 }

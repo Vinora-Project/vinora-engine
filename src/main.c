@@ -31,7 +31,7 @@ static void PrintUsage(FILE *out, const char *argv0)
 
 int main(int argc, char **argv)
 {
-    const char *scenePath = "assets/alice.vnrs";
+    const char *scenePath = "assets/i18n.vnrs";
     int screenWidth = 1280;
     int screenHeight = 720;
     Font gameFont = {0};
@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     SetWindowMinSize(800, 600);
     SetTargetFPS(60);
 
-    gameFont = LoadGameFont("assets/fonts/mplus_regular.ttf", 64,
+    gameFont = LoadGameFont("assets/fonts/unifont.otf", 64,
         scenePath);
     GameStateInit(&game, gameFont, scenePath);
 
