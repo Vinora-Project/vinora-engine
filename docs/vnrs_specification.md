@@ -1,5 +1,5 @@
 # VINORA SCREENPLAY SPECIFICATION
-Version 0.0.3 (21.08.2026)
+Version 0.0.4 (05.09.2026)
 Evgeniy "Parthen" Parfenyuk
 
 # 1. Introduction
@@ -51,9 +51,12 @@ is the smallest unit of text that carries a semantic or
 visual meaning in a writing system. It can be a letter, digit,
 punctuation mark, space, special character (e.g., "@" or newline),
 or another element used to represent information in text form.
-*NOTE: emojis are images, and not text characters.
-So-called Unicode "combined characters" are considered (and rendered) as
-multiple separate characters*.
+*NOTE: Letters, digits, punctuation, and other symbols in the
+Unicode range U+0000-U+FFFF are characters. Code points above
+U+FFFF (this includes almost all color emoji) are not characters;
+write them as images (S.3.2.6). So-called Unicode "combined
+characters" are considered (and rendered) as multiple separate
+characters*.
 
 **Newline characters**
 are special characters that end a line.
