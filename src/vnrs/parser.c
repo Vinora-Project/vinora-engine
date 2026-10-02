@@ -15,8 +15,7 @@ GNU General Public License for more details.
 
 #include "parser.h"
 
-#include "raylib.h"
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -83,8 +82,8 @@ static void WarnIfLong(int lineNumber, const char *line)
     int chars = Utf8CharCount(line);
 
     if (chars > VNRS_LINE_WARN) {
-        TraceLog(LOG_WARNING,
-            "[Vinora] Line %d is %d characters (limit is %d)",
+        fprintf(stderr,
+            "[Vinora] Line %d is %d characters (limit is %d)\n",
             lineNumber, chars, VNRS_LINE_WARN);
     }
 }
@@ -101,7 +100,7 @@ static int AppendLine(char **buf, size_t *len, const char *line)
 
     next = (char *)realloc(*buf, *len + extra + 1);
     if (!next) {
-        TraceLog(LOG_ERROR, "[Vinora] Out of memory reading scene");
+        fprintf(stderr, "[Vinora] Out of memory reading scene\n");
         return 0;
     }
 
@@ -120,7 +119,7 @@ int SceneOpen(Scene *scene, const char *path)
     memset(scene, 0, sizeof(*scene));
     scene->file = fopen(path, "r");
     if (!scene->file) {
-        TraceLog(LOG_ERROR, "[Vinora] Cannot open scene: %s", path);
+        fprintf(stderr, "[Vinora] Cannot open scene: %s\n", path);
         scene->finished = 1;
         return 0;
     }
