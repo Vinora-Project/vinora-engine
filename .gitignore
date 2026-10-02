@@ -1,5 +1,6 @@
-# Engine binary
+# Engine binary and the scene dump
 vinora
+vnrs_parser
 
 # Objects, archives, deps
 *.o

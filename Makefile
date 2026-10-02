@@ -6,6 +6,7 @@ LDFLAGS  := -Lext/raylib/src/
 LIBS     := -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 TARGET   := vinora
+DUMP     := vnrs_parser
 SRC_DIR  := src
 
 SOURCES  := $(shell find $(SRC_DIR) -type f -name '*.c' | sort)
@@ -27,12 +28,13 @@ endif
 
 .PHONY: all raylib run clean nuke rebuild style-check help
 
-all: raylib $(TARGET)
+all: raylib $(TARGET) $(DUMP)
 
 help:
-	@echo "make              build raylib and $(TARGET)"
+	@echo "make              build raylib, $(TARGET), and $(DUMP)"
 	@echo "make run          build and run (extra words -> argv)"
-	@echo "make clean        remove engine objects and binary"
+	@echo "make vnrs_parser  build the scene dump on its own"
+	@echo "make clean        remove engine objects and binaries"
 	@echo "make nuke         also clean the bundled raylib"
 	@echo "make rebuild      clean, then build"
 	@echo "make style-check  clang-format dry run"
@@ -43,14 +45,19 @@ raylib:
 $(TARGET): $(OBJECTS) | raylib
 	$(CC) $^ $(LDFLAGS) $(LIBS) -o $@
 
-%.o: %.c
+$(DUMP): vnrs_parser.o src/vnrs/parser.o
+	$(CC) $^ -o $@
+
+# A header change can resize a struct. Rebuild every object, or a
+# stale .o writes past the caller's stack.
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 run: $(TARGET)
 	./$(TARGET) $(RUN_ARGS)
 
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -f $(OBJECTS) $(TARGET) $(DUMP) vnrs_parser.o
 
 nuke: clean
 	@$(MAKE) -C $(RAYLIB_DIR) clean
@@ -58,4 +65,4 @@ nuke: clean
 rebuild: clean all
 
 style-check:
-	clang-format --dry-run --Werror $(SOURCES) $(HEADERS)
+	clang-format --dry-run --Werror $(SOURCES) $(HEADERS) vnrs_parser.c

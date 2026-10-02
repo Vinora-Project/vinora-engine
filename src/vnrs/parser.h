@@ -18,9 +18,41 @@ GNU General Public License for more details.
 
 #include <stdio.h>
 
+typedef enum {
+    chunk_none,
+    chunk_dialog,
+    chunk_chapter,
+    chunk_choice,
+    chunk_image,
+    chunk_media,
+    chunk_comment,
+    chunk_directive,
+    chunk_literal,
+    chunk_empty
+} ChunkType;
+
+/* One piece of a scene. The strings belong to Scene and die on
+   the next SceneReadNext or on SceneClose.
+   speaker is NULL until the first name marker. A bare "::" stores
+   "" (narrator, no name). The speaker stays until the next marker.
+   path, attr, and marker are for choices, images, and media.
+   A run of blank lines is one chunk_empty. */
+typedef struct {
+    ChunkType type;
+    char *text;
+    char *speaker;
+    char *path;
+    char *attr;
+    char marker;
+    int level;
+    int lineNumber;
+} Chunk;
+
 typedef struct {
     FILE *file;
-    char *currentChunk;
+    Chunk chunk;
+    char *speaker;
+    char *pendingLine;
     int lineNumber;
     int finished;
 } Scene;

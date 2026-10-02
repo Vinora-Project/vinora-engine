@@ -59,6 +59,13 @@ To play another scene:
 make run assets/hamlet.vnrs
 ```
 
+To print how a scene was split:
+
+```
+make vnrs_parser
+./vnrs_parser assets/alice.vnrs
+```
+
 Controls: click, Space, or Enter to advance. Close the window to
 quit. There is no settings menu. There is no menu.
 

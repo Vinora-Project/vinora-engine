@@ -37,12 +37,19 @@ static int AdvancePressed(void)
 
 static void ShowNextChunk(GameState *gs)
 {
-    if (SceneReadNext(&gs->scene)) {
+    ChunkType type = chunk_none;
+
+    while (SceneReadNext(&gs->scene)) {
+        type = gs->scene.chunk.type;
+        if (type != chunk_dialog && type != chunk_chapter)
+            continue;
+
         gs->currentState = state_dialogue;
-        TextBoxSetText(&gs->dialogueBox, gs->scene.currentChunk);
-    } else {
-        gs->currentState = state_end;
+        TextBoxSetText(&gs->dialogueBox, gs->scene.chunk.text);
+        return;
     }
+
+    gs->currentState = state_end;
 }
 
 void GameStateInit(GameState *gs, Font font, const char *scenePath)
