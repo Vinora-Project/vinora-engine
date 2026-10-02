@@ -37,10 +37,17 @@ static char *Dup(const char *s)
     return p;
 }
 
+/* Longest tag is DIRECTIVE. Spaces keep the pipe in one column. */
+#define TAG_WIDTH 9
+
+static void PrintTag(const char *tag)
+{
+    printf("%-*s|", TAG_WIDTH, tag);
+}
+
 static void PrintText(const char *tag, const char *text)
 {
-    fputs(tag, stdout);
-    fputc('|', stdout);
+    PrintTag(tag);
     if (text != NULL && text[0] != '\0') {
         fputc(' ', stdout);
         fputs(text, stdout);
@@ -52,7 +59,8 @@ static void PrintTitle(const Chunk *chunk)
 {
     int i = 0;
 
-    fputs("TITLE| ", stdout);
+    PrintTag("TITLE");
+    fputc(' ', stdout);
     for (i = 0; i < chunk->level; i++)
         fputc('#', stdout);
     if (chunk->text != NULL && chunk->text[0] != '\0') {
@@ -68,23 +76,23 @@ static const char *ChunkTag(ChunkType type)
     case chunk_dialog:
         return "DIALOG";
     case chunk_chapter:
-        return "TITLE-";
+        return "TITLE";
     case chunk_choice:
         return "CHOICE";
     case chunk_image:
-        return "IMAGE-";
+        return "IMAGE";
     case chunk_media:
-        return "MEDIA-";
+        return "MEDIA";
     case chunk_comment:
-        return "COMMNT";
+        return "COMMENT";
     case chunk_directive:
-        return "DIRECT";
+        return "DIRECTIVE";
     case chunk_literal:
-        return "LITERL";
+        return "LITERAL";
     case chunk_empty:
-        return "EMPTY-";
+        return "EMPTY";
     default:
-        return "NONE--";
+        return "NONE";
     }
 }
 
@@ -103,7 +111,7 @@ static int PrintChunk(const Chunk *chunk, char **shown)
             }
             free(*shown);
             *shown = copy;
-            PrintText("NAME--", chunk->speaker);
+            PrintText("NAME", chunk->speaker);
         }
     }
 

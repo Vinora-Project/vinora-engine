@@ -18,3 +18,5 @@
 # Vendored raylib is a dump, not ours. Some of its Windows project files
 # and a couple of sources were committed with CRLF. Do not renormalize.
 ext/raylib/** -text
+
+tests/vnrs/cases/crlf.vnrs -text

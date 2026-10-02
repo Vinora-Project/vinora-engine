@@ -26,7 +26,7 @@ ifeq ($(firstword $(MAKECMDGOALS)),run)
     $(foreach a,$(RUN_ARGS),$(eval $(a):;@:))
 endif
 
-.PHONY: all raylib run clean nuke rebuild style-check help
+.PHONY: all raylib run clean nuke rebuild style-check help test
 
 all: raylib $(TARGET) $(DUMP)
 
@@ -34,6 +34,7 @@ help:
 	@echo "make              build raylib, $(TARGET), and $(DUMP)"
 	@echo "make run          build and run (extra words -> argv)"
 	@echo "make vnrs_parser  build the scene dump on its own"
+	@echo "make test         run tests/vnrs"
 	@echo "make clean        remove engine objects and binaries"
 	@echo "make nuke         also clean the bundled raylib"
 	@echo "make rebuild      clean, then build"
@@ -55,6 +56,9 @@ $(DUMP): vnrs_parser.o src/vnrs/parser.o
 
 run: $(TARGET)
 	./$(TARGET) $(RUN_ARGS)
+
+test: $(DUMP)
+	./tests/vnrs/run.sh
 
 clean:
 	rm -f $(OBJECTS) $(TARGET) $(DUMP) vnrs_parser.o

@@ -64,6 +64,7 @@ To print how a scene was split:
 ```
 make vnrs_parser
 ./vnrs_parser assets/alice.vnrs
+make test
 ```
 
 Controls: click, Space, or Enter to advance. Close the window to
